@@ -1,0 +1,1 @@
+Flask==3.1.1\nopencv-python-headless==4.11.0.86\nnumpy==2.2.6\n

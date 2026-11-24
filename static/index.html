@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PixelLab | Image Processing Studio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="#"><span class="mark">P</span> PixelLab</a>
+  <div class="top-actions"><span class="network-dot"></span> Local image editor
+    <button id="themeToggle" class="icon-button" type="button" title="Switch theme">☾</button>
+    <button id="downloadButton" class="button download" disabled>↓ Download</button>
+  </div>
+</header>
+
+<main class="app-shell">
+  <aside class="sidebar">
+    <div class="sidebar-title">WORKSPACE</div>
+    <button class="side-tab active" data-tab="adjust"><span>◐</span> Adjust</button>
+    <button class="side-tab" data-tab="filters"><span>✧</span> Filters</button>
+    <button class="side-tab" data-tab="resize"><span>↔</span> Resize</button>
+    <button class="side-tab" data-tab="rotate"><span>⟳</span> Rotate & crop</button>
+    <button class="side-tab" data-tab="compare"><span>◫</span> Compare</button>
+    <button class="side-tab" data-tab="color"><span>◉</span> Color filters</button>
+    <button class="side-tab" data-tab="video"><span>▶</span> Video frame</button>
+    <button class="side-tab" data-tab="webcam"><span>◉</span> Webcam</button>
+    <button class="side-tab" data-tab="batch"><span>▦</span> Batch process</button>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-title">IMAGE</div>
+    <button id="uploadButton" class="side-tab"><span>＋</span> Upload image</button>
+    <input id="imageInput" type="file" accept="image/png,image/jpeg,image/webp,image/bmp" hidden>
+    <div class="sidebar-help">Tip: Adjustments update the preview as you move the sliders. Filter effects are applied when selected.</div>
+  </aside>
+
+  <section class="main-area">
+    <div class="page-heading">
+      <div><div class="eyebrow">IMAGE EDITING WORKSPACE</div><h1>Image Enhancement Studio</h1><p>Make precise adjustments and preview your changes instantly.</p></div>
+      <div id="fileInfo" class="file-info">No image selected</div>
+    </div>
+
+    <section class="upload-strip" id="dropzone">
+      <div class="upload-symbol">↑</div>
+      <div><strong>Drop an image here</strong><span> or <button id="browseButton" class="text-button">browse files</button></span><small>PNG, JPG, WEBP or BMP · Maximum 10 MB</small></div>
+    </section>
+
+    <div class="editor-layout">
+      <section class="tool-panel">
+        <div id="adjustPanel" class="tab-panel">
+          <div class="panel-heading"><span class="tool-icon">◐</span><div><h2>Adjustments</h2><p>Changes appear instantly in the preview.</p></div></div>
+          <div class="control-group">
+            <div class="control-label"><label for="brightness">Brightness</label><output id="brightnessValue">100%</output></div>
+            <input id="brightness" type="range" min="0" max="200" value="100">
+            <div class="range-ends"><span>Darker</span><span>Brighter</span></div>
+          </div>
+          <div class="control-group">
+            <div class="control-label"><label for="contrast">Contrast</label><output id="contrastValue">100%</output></div>
+            <input id="contrast" type="range" min="0" max="200" value="100">
+            <div class="range-ends"><span>Lower</span><span>Higher</span></div>
+          </div>
+          <div class="control-group">
+            <div class="control-label"><label for="exposure">Exposure</label><output id="exposureValue">0.0 EV</output></div>
+            <input id="exposure" type="range" min="-200" max="200" value="0">
+            <div class="range-ends"><span>-2 EV</span><span>+2 EV</span></div>
+          </div>
+          <h3 class="subheading">Tone curves</h3>
+          <div class="control-group compact-control">
+            <div class="control-label"><label for="shadows">Shadows</label><output id="shadowsValue">0</output></div>
+            <input id="shadows" type="range" min="-100" max="100" value="0">
+          </div>
+          <div class="control-group compact-control">
+            <div class="control-label"><label for="midtones">Midtones</label><output id="midtonesValue">0</output></div>
+            <input id="midtones" type="range" min="-100" max="100" value="0">
+          </div>
+          <div class="control-group compact-control">
+            <div class="control-label"><label for="highlights">Highlights</label><output id="highlightsValue">0</output></div>
+            <input id="highlights" type="range" min="-100" max="100" value="0">
+          </div>
+          <h3 class="subheading">Color grading</h3>
+          <div class="control-group compact-control">
+            <div class="control-label"><label for="temperature">Temperature</label><output id="temperatureValue">0</output></div>
+            <input id="temperature" type="range" min="-100" max="100" value="0">
+          </div>
+          <div class="control-group compact-control">
+            <div class="control-label"><label for="tint">Tint</label><output id="tintValue">0</output></div>
+            <input id="tint" type="range" min="-100" max="100" value="0">
+          </div>
+          <div class="control-group compact-control">
+            <div class="control-label"><label for="saturation">Saturation</label><output id="saturationValue">100%</output></div>
+            <input id="saturation" type="range" min="0" max="200" value="100">
+          </div>
+          <h3 class="subheading">Creative effects</h3>
+          <div class="control-group compact-control">
+            <div class="control-label"><label for="grain">Grain</label><output id="grainValue">0</output></div>
+            <input id="grain" type="range" min="0" max="100" value="0">
+          </div>
+          <div class="control-group compact-control">
+            <div class="control-label"><label for="vignette">Vignette</label><output id="vignetteValue">0</output></div>
+            <input id="vignette" type="range" min="0" max="100" value="0">
+          </div>
+          <div class="control-group compact-control">
+            <div class="control-label"><label for="texture">Texture</label><output id="textureValue">0</output></div>
+            <input id="texture" type="range" min="-100" max="100" value="0">
+          </div>
+          <button id="resetAdjustments" class="button secondary" disabled>Reset adjustments</button>
+        </div>
+
+        <div id="filtersPanel" class="tab-panel hidden">
+          <div class="panel-heading"><span class="tool-icon">✧</span><div><h2>Image filters</h2><p>Select a filter to apply it to your image.</p></div></div>
+          <div class="filter-list">
+            <button class="filter-button active" data-filter="original"><span class="filter-symbol">◉</span><span><strong>Original</strong><small>Remove applied filter</small></span></button>
+            <button class="filter-button" data-filter="grayscale"><span class="filter-symbol">◐</span><span><strong>Grayscale</strong><small>Black and white</small></span></button>
+            <button class="filter-button" data-filter="blur"><span class="filter-symbol">◌</span><span><strong>Blur</strong><small>Smooth the image</small></span></button>
+            <button class="filter-button" data-filter="sharpen"><span class="filter-symbol">✥</span><span><strong>Sharpen</strong><small>Enhance edges and details</small></span></button>
+            <button class="filter-button" data-filter="denoise"><span class="filter-symbol">✧</span><span><strong>Noise reduction</strong><small>Reduce image noise</small></span></button>
+            <button class="filter-button" data-filter="edges"><span class="filter-symbol">⌁</span><span><strong>Edge detection</strong><small>Find image boundaries</small></span></button>
+          </div>
+        </div>
+
+        <div id="resizePanel" class="tab-panel hidden">
+          <div class="panel-heading"><span class="tool-icon">↔</span><div><h2>Resize image</h2><p>Set a new image size in pixels.</p></div></div>
+          <label class="field-label" for="resizeWidth">Width</label>
+          <input id="resizeWidth" class="text-field" type="number" min="1" max="4000">
+          <label class="field-label" for="resizeHeight">Height</label>
+          <input id="resizeHeight" class="text-field" type="number" min="1" max="4000">
+          <label class="check-row"><input id="keepAspect" type="checkbox" checked> Keep aspect ratio</label>
+          <button id="applyResize" class="button secondary" disabled>Apply resize</button>
+        </div>
+
+        <div id="rotatePanel" class="tab-panel hidden">
+          <div class="panel-heading"><span class="tool-icon">⟳</span><div><h2>Rotate & crop</h2><p>Rotate or crop the current image.</p></div></div>
+          <div class="button-row"><button id="rotateLeft" class="button secondary" disabled>↶ Left</button><button id="rotateRight" class="button secondary" disabled>↷ Right</button></div>
+          <label class="field-label" for="cropRatio">Aspect ratio</label>
+          <select id="cropRatio" class="text-field">
+            <option value="free">Freehand</option>
+            <option value="1:1">Square · 1:1</option>
+            <option value="4:3">Standard · 4:3</option>
+            <option value="3:2">Photo · 3:2</option>
+            <option value="16:9">Widescreen · 16:9</option>
+            <option value="9:16">Portrait · 9:16</option>
+            <option value="5:4">Print · 5:4</option>
+          </select>
+          <button id="enableCropSelection" class="button secondary" disabled>Drag to select crop</button>
+          <h3 class="subheading">Crop pixels</h3>
+          <div class="crop-grid">
+            <input id="cropX" class="text-field" type="number" min="0" value="0" placeholder="X">
+            <input id="cropY" class="text-field" type="number" min="0" value="0" placeholder="Y">
+            <input id="cropWidth" class="text-field" type="number" min="1" placeholder="Width">
+            <input id="cropHeight" class="text-field" type="number" min="1" placeholder="Height">
+          </div>
+          <button id="applyCrop" class="button secondary" disabled>Apply crop</button>
+        </div>
+
+        <div id="comparePanel" class="tab-panel hidden">
+          <div class="panel-heading"><span class="tool-icon">◫</span><div><h2>Before & after</h2><p>Drag to compare the original and edits.</p></div></div>
+          <input id="comparisonRange" type="range" min="0" max="100" value="50" disabled>
+        </div>
+
+        <div id="colorPanel" class="tab-panel hidden">
+          <div class="panel-heading"><span class="tool-icon">◉</span><div><h2>Color filters</h2><p>Apply a creative color treatment.</p></div></div>
+          <div class="filter-list">
+            <button class="filter-button" data-filter="sepia"><span class="filter-symbol">S</span><span><strong>Sepia</strong><small>Warm brown tones</small></span></button>
+            <button class="filter-button" data-filter="warm"><span class="filter-symbol">W</span><span><strong>Warm</strong><small>Increase red and yellow</small></span></button>
+            <button class="filter-button" data-filter="cool"><span class="filter-symbol">C</span><span><strong>Cool</strong><small>Increase blue tones</small></span></button>
+            <button class="filter-button" data-filter="vintage"><span class="filter-symbol">V</span><span><strong>Vintage</strong><small>Faded film color</small></span></button>
+          </div>
+        </div>
+
+        <div id="videoPanel" class="tab-panel hidden">
+          <div class="panel-heading"><span class="tool-icon">▶</span><div><h2>Video frame extraction</h2><p>Extract a PNG from a video.</p></div></div>
+          <input id="videoInput" type="file" accept="video/mp4,video/webm,video/avi,video/quicktime" hidden>
+          <button id="chooseVideo" class="button secondary">Choose video</button>
+          <div id="videoFileInfo" class="selected-file hidden"></div>
+          <button id="deleteVideo" class="button danger-button hidden" type="button">Delete video</button>
+          <label class="field-label" for="frameTimestamp">Timestamp (seconds)</label>
+          <input id="frameTimestamp" class="text-field" type="number" min="0" step="0.1" value="0">
+          <button id="extractFrame" class="button secondary" disabled>Extract frame</button>
+        </div>
+
+        <div id="webcamPanel" class="tab-panel hidden">
+          <div class="panel-heading"><span class="tool-icon">◉</span><div><h2>Webcam capture</h2><p>Capture an image from your camera.</p></div></div>
+          <video id="webcamVideo" autoplay playsinline muted></video>
+          <button id="startWebcam" class="button secondary">Start webcam</button>
+          <button id="captureWebcam" class="button secondary" disabled>Capture photo</button>
+        </div>
+
+        <div id="batchPanel" class="tab-panel hidden">
+          <div class="panel-heading"><span class="tool-icon">▦</span><div><h2>Batch processing</h2><p>Apply one filter to multiple images.</p></div></div>
+          <input id="batchInput" type="file" accept="image/png,image/jpeg,image/webp,image/bmp" multiple hidden>
+          <button id="chooseBatch" class="button secondary">Choose images</button>
+          <div id="batchFileInfo" class="selected-file hidden"></div>
+          <button id="deleteBatch" class="button danger-button hidden" type="button">Delete batch</button>
+          <div id="batchPreview" class="batch-preview" aria-label="Batch previews"></div>
+          <label class="field-label" for="batchOperation">Filter</label>
+          <select id="batchOperation" class="text-field"><option value="grayscale">Grayscale</option><option value="blur">Blur</option><option value="sharpen">Sharpen</option><option value="denoise">Noise reduction</option><option value="edges">Edge detection</option><option value="sepia">Sepia</option><option value="warm">Warm</option><option value="cool">Cool</option><option value="vintage">Vintage</option></select>
+          <button id="processBatch" class="button secondary" disabled>Process & download ZIP</button>
+        </div>
+      </section>
+
+      <section class="preview-panel">
+        <div class="preview-heading">
+          <div><h2>Live preview</h2><span id="previewStatus">Upload an image to begin</span></div>
+          <div class="preview-actions">
+            <button id="undoButton" class="icon-button history-button" type="button" title="Undo" disabled aria-label="Undo">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7 4 12l5 5M5 12h8a6 6 0 0 1 6 6"/></svg>
+            </button>
+            <button id="redoButton" class="icon-button history-button" type="button" title="Redo" disabled aria-label="Redo">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 7 5 5-5 5m4-5h-8a6 6 0 0 0-6 6"/></svg>
+            </button>
+            <button id="deleteImage" class="icon-button delete-button" type="button" title="Delete uploaded image" disabled aria-label="Delete uploaded image">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2m-9 0 1 14h8l1-14M10 10v6m4-6v6"/></svg>
+            </button>
+            <button id="resetAll" class="text-button" disabled>Reset all</button>
+          </div>
+        </div>
+        <div class="canvas-stage" id="canvasStage">
+          <div id="emptyState"><div class="empty-icon">▧</div><strong>Your image preview will appear here</strong><span>Upload an image to start editing</span></div>
+          <canvas id="resultCanvas" hidden></canvas>
+          <div id="cropSelection" class="crop-selection" hidden></div>
+          <div id="comparisonView" class="comparison-view" hidden>
+            <canvas id="comparisonOriginal"></canvas>
+            <canvas id="comparisonEdited"></canvas>
+            <div id="comparisonDivider" class="comparison-divider"></div>
+          </div>
+        </div>
+        <div class="preview-footer"><span>Original image remains unchanged</span><span id="dimensions"></span></div>
+      </section>
+    </div>
+    <footer>PixelLab · Python · Flask · OpenCV</footer>
+  </section>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
